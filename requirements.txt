@@ -1,0 +1,22 @@
+# Core dependencies
+python-dotenv>=1.0.0
+pyyaml>=6.0
+loguru>=0.7.0
+
+# Neo4j dependencies
+neo4j>=5.11.0
+
+# Qdrant dependencies
+qdrant-client>=1.5.0
+
+# NLP and embedding dependencies
+transformers>=4.35.0
+torch>=2.0.0
+sentence-transformers>=2.2.2
+numpy>=1.24.0
+
+# Utilities
+tqdm>=4.65.0
+requests>=2.31.0
+python-dateutil>=2.8.2
+uuid>=1.30 

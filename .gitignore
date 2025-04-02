@@ -1,0 +1,118 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+.venv/
+
+# Environment files
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+!.env.example
+
+# Database files
+data/neo4j/data/
+data/neo4j/logs/
+data/neo4j/plugins/
+data/neo4j/import/
+data/qdrant/collections/
+data/qdrant/.deleted/
+data/qdrant/aliases/
+data/qdrant/*.json
+*.sqlite
+*.sqlite3
+*.db
+
+# Logs and Temporary Files
+logs/
+*.log
+import_docs.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.tmp
+
+# Caches
+.cache/
+.pytest_cache/
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.mypy_cache/
+
+# IDE and Editor specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+
+# Model caches and embeddings
+models/
+embeddings/
+cache/
+
+# Test artifacts
+.coverage
+htmlcov/
+scripts/testing/
+!scripts/testing/.gitkeep
+
+# Documentation generated files
+_build/
+_static/
+_templates/
+
+# Data files
+*.csv
+*.pickle
+*.pkl
+*.bin
+*.vec
+*.tar
+*.gz
+*.zip
+
+# Docker volumes
+neo4j_data/
+qdrant_data/
+
+# Keep the data directory structure but exclude content
+data/*
+!data/.gitkeep
+!data/neo4j/
+!data/qdrant/
+!data/input/
+data/neo4j/*
+data/qdrant/*
+data/input/*
+!data/neo4j/.gitkeep
+!data/qdrant/.gitkeep
+!data/input/.gitkeep 

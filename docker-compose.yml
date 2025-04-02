@@ -1,0 +1,56 @@
+version: "3.8"
+
+services:
+  neo4j:
+    image: neo4j:5.11.0
+    container_name: graphrag_neo4j
+    ports:
+      - "7474:7474" # HTTP (standard port)
+      - "7687:7687" # Bolt (standard port)
+    environment:
+      - NEO4J_AUTH=neo4j/password
+      - NEO4J_ACCEPT_LICENSE_AGREEMENT=yes
+      - NEO4J_apoc_export_file_enabled=true
+      - NEO4J_apoc_import_file_enabled=true
+      - NEO4J_apoc_import_file_use__neo4j__config=true
+      - NEO4J_dbms_security_procedures_unrestricted=apoc.*,gds.*
+    volumes:
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+      - neo4j_import:/var/lib/neo4j/import
+      - neo4j_plugins:/plugins
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7474"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  qdrant:
+    image: qdrant/qdrant:v1.5.0
+    container_name: graphrag_qdrant
+    ports:
+      - "6333:6333" # HTTP (standard port)
+      - "6334:6334" # gRPC
+    environment:
+      - QDRANT_ALLOW_RECOVERY_MODE=true
+    volumes:
+      - qdrant_data:/qdrant/storage
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6333/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  neo4j_data:
+    name: graphrag_neo4j_data
+  neo4j_logs:
+    name: graphrag_neo4j_logs
+  neo4j_import:
+    name: graphrag_neo4j_import
+  neo4j_plugins:
+    name: graphrag_neo4j_plugins
+  qdrant_data:
+    name: graphrag_qdrant_data
