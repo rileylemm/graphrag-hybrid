@@ -23,7 +23,7 @@ class QdrantManager:
         self.grpc_port = config.get('qdrant.grpc_port', 6334)
         self.collection_name = config.get('qdrant.collection', 'document_chunks')
         self.prefer_grpc = config.get('qdrant.prefer_grpc', True)
-        self.vector_size = config.get('embedding.vector_size', 768)
+        self.vector_size = config.get('embedding.vector_size', 384)
         self.embedding_model = embedding_model
         self.client = None
         
