@@ -226,10 +226,10 @@ python test_db_connection/test_connections.py
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgements
 
-- Neo4j for graph database
-- Qdrant for vector similarity search
-- HuggingFace for transformer models 
+- [Neo4j](https://neo4j.com/) for graph database
+- [Qdrant](https://qdrant.tech/) for vector similarity search
+- [HuggingFace](https://huggingface.co/) for transformer models 

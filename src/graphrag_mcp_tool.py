@@ -8,6 +8,12 @@ the hybrid Neo4j and Qdrant document retrieval system.
 import logging
 import json
 from typing import Dict, List, Optional, Any, Union
+import os
+from dataclasses import dataclass
+from neo4j import GraphDatabase
+from qdrant_client import QdrantClient
+import sentence_transformers
+import warnings
 
 # Import GraphRAG components
 from .config import Config
@@ -16,7 +22,20 @@ from .database.qdrant_manager import QdrantManager
 from .processors.embedding_processor import EmbeddingProcessor
 from .query_engine import QueryEngine
 
+# Suppress Qdrant version warnings
+warnings.filterwarnings("ignore", category=UserWarning, module="qdrant_client")
+
 logger = logging.getLogger(__name__)
+
+@dataclass
+class SearchResult:
+    """Data class for search results."""
+    content: str
+    document_id: str
+    chunk_id: str
+    score: float
+    category: str
+    title: str
 
 class GraphRAGMCPTool:
     """
@@ -51,6 +70,20 @@ class GraphRAGMCPTool:
         try:
             logger.info("Initializing GraphRAG MCP Tool")
             
+            # Load environment variables
+            self.neo4j_uri = os.getenv("NEO4J_URI", "bolt://localhost:7687")
+            self.neo4j_user = os.getenv("NEO4J_USERNAME", "neo4j")
+            self.neo4j_pass = os.getenv("NEO4J_PASSWORD", "password")
+            self.qdrant_host = os.getenv("QDRANT_HOST", "localhost")
+            self.qdrant_port = int(os.getenv("QDRANT_PORT", "6333"))
+            self.collection = os.getenv("QDRANT_COLLECTION", "document_chunks")
+            
+            # Initialize connections
+            self._init_connections()
+            
+            # Load embedding model
+            self.model = sentence_transformers.SentenceTransformer('all-MiniLM-L6-v2')
+            
             # Create embedding processor
             self.embedding_processor = EmbeddingProcessor(self.config)
             self.embedding_processor.load_model()
@@ -73,6 +106,20 @@ class GraphRAGMCPTool:
         except Exception as e:
             logger.error(f"Error initializing GraphRAG MCP Tool: {str(e)}")
             raise
+            
+    def _init_connections(self):
+        """Initialize database connections with error handling."""
+        try:
+            self.neo4j_driver = GraphDatabase.driver(
+                self.neo4j_uri,
+                auth=(self.neo4j_user, self.neo4j_pass)
+            )
+            self.qdrant_client = QdrantClient(
+                host=self.qdrant_host,
+                port=self.qdrant_port
+            )
+        except Exception as e:
+            raise ConnectionError(f"Failed to initialize database connections: {str(e)}")
             
     def search(self, query: str, limit: int = 5, category: Optional[str] = None, 
                search_type: str = "hybrid") -> Dict[str, Any]:
