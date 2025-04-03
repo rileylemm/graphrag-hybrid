@@ -261,4 +261,30 @@ class Neo4jHelper:
         """
         with self.driver.session() as session:
             session.run(query)
-        return "Database cleared successfully." 
+        return "Database cleared successfully."
+    
+    def test_connection(self):
+        """Test the Neo4j connection."""
+        try:
+            result = self.verify_connection()
+            return "Connection successful" in result
+        except Exception:
+            return False
+            
+    def get_database_stats(self):
+        """Get database statistics."""
+        stats = {}
+        with self.driver.session() as session:
+            # Get document count
+            result = session.run("MATCH (d:Document) RETURN count(d) as count")
+            stats['document_count'] = result.single()["count"]
+            
+            # Get chunk count
+            result = session.run("MATCH (c:Chunk) RETURN count(c) as count")
+            stats['chunk_count'] = result.single()["count"]
+            
+            # Get relationship count
+            result = session.run("MATCH ()-[r]->() RETURN count(r) as count")
+            stats['relationship_count'] = result.single()["count"]
+            
+        return stats 

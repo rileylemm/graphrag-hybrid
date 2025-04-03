@@ -98,4 +98,19 @@ class Config:
     
     def __str__(self):
         """Return a string representation of the configuration"""
-        return yaml.dump(self.config, default_flow_style=False) 
+        return yaml.dump(self.config, default_flow_style=False)
+
+# Create default configuration instance
+config = Config()
+
+# Export commonly used variables
+NEO4J_URI = config.get('neo4j.uri')
+NEO4J_USER = config.get('neo4j.user')
+NEO4J_PASSWORD = config.get('neo4j.password')
+
+QDRANT_HOST = config.get('qdrant.host')
+QDRANT_PORT = config.get('qdrant.port')
+QDRANT_COLLECTION = config.get('qdrant.collection')
+
+EMBEDDING_MODEL = config.get('embedding.model')
+EMBEDDING_DIMENSION = config.get('embedding.dimension') 

@@ -1,6 +1,27 @@
 # Database Connection Testing
 
-This directory contains scripts for testing connections to the Neo4j and Qdrant databases that power the GraphRAG system.
+This directory contains scripts and documentation for testing connections to the Neo4j and Qdrant databases used in the GraphRAG system.
+
+## Contents
+
+- `test_connections.py`: Main script for testing database connections and content verification
+- `connection_info.md`: Summary of connection parameters and findings
+
+## Testing Process and Findings
+
+Through extensive testing, we discovered:
+
+1. **Port Discovery**: 
+   - Neo4j is using standard ports:
+     - HTTP Port: 7474
+     - Bolt Port: 7687
+   - Qdrant is using standard port:
+     - HTTP Port: 6333
+
+2. **Database Content Verification**:
+   - Successfully connected to both databases
+   - Neo4j contains 162 documents, with approximately 20,112 chunks
+   - Qdrant contains 20,112 vectors with matching document IDs
 
 ## Connection Details
 

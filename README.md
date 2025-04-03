@@ -4,16 +4,37 @@ A powerful retrieval augmentation generation (RAG) system that combines Neo4j gr
 
 > **AI Agents**: If you're an AI agent exploring this repository, start with [AI_ENTRY.md](AI_ENTRY.md) for a comprehensive overview.
 
-## Database Connection Info
+## System Overview
 
-**Neo4j**
-- HTTP Port: 7474
-- Bolt Port: 7687
-- Authentication: neo4j/password
+GraphRAG uses two complementary databases:
 
-**Qdrant**
-- HTTP Port: 6333
-- Collection: document_chunks
+1. **Neo4j Graph Database**: Stores document relationships, categories, and metadata
+2. **Qdrant Vector Database**: Stores document chunk embeddings for semantic search
+
+## Verified Database Connection Information
+
+| Database | Service | Port | Authentication |
+|----------|---------|------|---------------|
+| Neo4j    | HTTP    | 7474 | neo4j/password |
+| Neo4j    | Bolt    | 7687 | neo4j/password |
+| Qdrant   | HTTP    | 6333 | None (default) |
+
+### Connection Parameters
+
+For use in applications:
+
+```
+# Neo4j Configuration
+NEO4J_HTTP_URI=http://localhost:7474
+NEO4J_BOLT_URI=bolt://localhost:7687
+NEO4J_USER=neo4j
+NEO4J_PASSWORD=password
+
+# Qdrant Configuration
+QDRANT_HOST=localhost
+QDRANT_PORT=6333
+QDRANT_COLLECTION=document_chunks
+```
 
 ## Features
 

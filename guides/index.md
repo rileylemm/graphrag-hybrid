@@ -1,30 +1,35 @@
 # GraphRAG Documentation Guides
 
-This directory contains comprehensive documentation for the GraphRAG hybrid retrieval system that combines Neo4j for document relationships and Qdrant for vector similarity search.
+This directory contains comprehensive guides for understanding and working with the GraphRAG system.
 
 ## Available Guides
 
-- [GraphRAG MCP Integration](mcp/index.md) - Guide for integrating with an external MCP server
-- [Database Setup Guide](database_setup.md) - Instructions for setting up Neo4j and Qdrant databases
+- **[MCP System Documentation](mcp/index.md)**: Integration guide for Model Context Protocol systems
+- **[Integration Guide](integration_guide.md)**: How to integrate GraphRAG into your applications
+- **[Database Query Guide](query_guide.md)**: Guide to querying both Neo4j and Qdrant databases
+- **[Database Setup Guide](database_setup.md)**: Instructions for setting up Neo4j and Qdrant
 
 ## Testing Documentation
 
-- [Database Connection Testing](testing/index.md) - Details on connection verification and troubleshooting
+- **[Connection Testing](../test_db_connection/index.md)**: Details of database connection testing
 
-## Key Topics Covered
+## Key Topics
 
-- Neo4j and Qdrant database configuration with correct ports
+The guides cover:
+
+- **Database Configuration**: 
   - Neo4j: HTTP on port 7474, Bolt on port 7687
-  - Qdrant: HTTP on port 6333, gRPC on port 6334
-- Document processing and embedding
-- GraphRAG query patterns and optimization
-- MCP integration API
-- Troubleshooting and debugging
+  - Qdrant: HTTP on port 6333
+- **Query Strategies**: How to leverage both graph and vector search
+- **Integration Patterns**: Patterns for integrating with various applications
+- **Troubleshooting**: Common issues and their solutions
 
-## Using These Guides
+## Reading Order
 
-These guides are designed to be read in the following order:
+For new users, we recommend the following reading order:
 
-1. Start with the [Database Setup Guide](database_setup.md) for initial configuration
-2. Read the integration documents in the [MCP directory](mcp/index.md)
-3. Check the [Testing Documentation](testing/index.md) if you encounter connection issues 
+1. Database Setup Guide
+2. Connection Testing
+3. Database Query Guide
+4. Integration Guide
+5. MCP System Documentation 
