@@ -1,21 +1,80 @@
-# Database Testing Guide
+# Database Connection Testing
 
-This guide explains how to test your database connections and verify that the GraphRAG system is properly set up.
+This guide documents the process of testing connections to the Neo4j and Qdrant databases.
 
-## Connection Testing
+## Initial Setup
 
-The `scripts/testing/test_connections.py` script will verify that both Neo4j and Qdrant databases are accessible:
-
-```bash
-python scripts/testing/test_connections.py
-```
-
-### What This Tests
+The GraphRAG system uses standard ports for both databases:
 
 - Neo4j runs on bolt port 7687 (standard port)
 - Qdrant runs on HTTP port 6333 (standard port)
-- Database credentials are correct
-- Collection names are properly configured
+
+## Environment Configuration
+
+For testing, use these environment variables:
+
+```bash
+# Neo4j
+NEO4J_URI=bolt://localhost:7687
+NEO4J_USERNAME=neo4j
+NEO4J_PASSWORD=password
+
+# Qdrant
+QDRANT_HOST=localhost
+QDRANT_PORT=6333
+```
+
+## Testing Process
+
+The connection testing process verifies:
+
+1. Neo4j connection on standard port 7687
+2. Neo4j authentication with default credentials
+3. Qdrant connection on standard port 6333
+4. Qdrant collection existence and access
+
+## Test Results
+
+Our testing confirmed:
+- Neo4j runs on standard bolt port 7687
+- Qdrant runs on standard HTTP port 6333
+- Both databases are accessible and properly configured
+- Document chunks are stored correctly in both systems
+
+## Debugging Notes
+
+During testing, we verified:
+- Neo4j connections work on default port 7687
+- Qdrant connections work on default port 6333
+- All database operations function as expected
+
+## Connection Information
+
+### Neo4j
+- **Host**: localhost
+- **Bolt Port**: 7687
+- **HTTP Port**: 7474
+- **Username**: neo4j
+- **Password**: password
+
+### Qdrant
+- **Host**: localhost
+- **HTTP Port**: 6333
+- **gRPC Port**: 6334
+- **Collection**: document_chunks
+
+## Environment Variables
+
+```bash
+# Neo4j
+NEO4J_URI=bolt://localhost:7687
+NEO4J_USERNAME=neo4j
+NEO4J_PASSWORD=password
+
+# Qdrant
+QDRANT_HOST=localhost
+QDRANT_PORT=6333
+```
 
 ## Query Testing
 

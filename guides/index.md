@@ -14,8 +14,8 @@ This directory contains comprehensive documentation for the GraphRAG hybrid retr
 ## Key Topics Covered
 
 - Neo4j and Qdrant database configuration with correct ports
-  - Neo4j: HTTP on port 7475, Bolt on port 7688
-  - Qdrant: HTTP on port 6335, gRPC on port 6334
+  - Neo4j: HTTP on port 7474, Bolt on port 7687
+  - Qdrant: HTTP on port 6333, gRPC on port 6334
 - Document processing and embedding
 - GraphRAG query patterns and optimization
 - MCP integration API

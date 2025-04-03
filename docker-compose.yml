@@ -27,7 +27,7 @@ services:
     restart: unless-stopped
 
   qdrant:
-    image: qdrant/qdrant:v1.5.0
+    image: qdrant/qdrant:latest
     container_name: graphrag_qdrant
     ports:
       - "6333:6333" # HTTP (standard port)

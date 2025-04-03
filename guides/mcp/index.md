@@ -1,27 +1,42 @@
-# GraphRAG MCP Integration
+# GraphRAG MCP Integration Guide
 
-This guide provides essential information for integrating the GraphRAG system with a Multi-Channel Platform (MCP).
+This directory contains guides and examples for integrating the GraphRAG system with MCP (Multi-Channel Platform). The guides cover both Neo4j and Qdrant database connections and querying.
 
-## Connection Parameters
+## Contents
 
-For connecting to the GraphRAG databases:
+1. [Connection Setup](connection.md) - How to configure and establish connections to Neo4j and Qdrant
+2. [Query Implementation](query.md) - Implementing query functionality in your MCP tools
+3. [Error Handling](error_handling.md) - Common errors and how to handle them
+4. [Examples](examples.md) - Example implementations and usage patterns
 
-**Neo4j**
-- Bolt Port: `7688`
-- HTTP Port: `7475`
-- Username: `neo4j`
-- Password: `password`
+## Quick Start
 
-**Qdrant**
-- HTTP Port: `6335`
-- Collection: `document_chunks`
+The GraphRAG system uses the following connection parameters:
 
-## Integration Steps
+### Neo4j Connection
+- HTTP Port: 7474 (standard port)
+- Bolt Port: 7687 (standard port)
+- Authentication: neo4j/password
+- Protocol: bolt
 
-1. **Configure Environment**: Set up connection parameters in your MCP environment
-2. **Implement Tool**: Create a tool class that connects to both databases
-3. **Handle Version Compatibility**: Implement error handling for Qdrant client versions
-4. **Test Connections**: Verify connections to both databases using the correct ports
+### Qdrant Connection
+- HTTP Port: 6333 (standard port)
+- gRPC Port: 6334
+- Collection Name: document_chunks
+- Vector Size: 384
+- Distance Metric: Cosine
+
+## Implementation Overview
+
+The GraphRAG system combines Neo4j for document relationships and Qdrant for vector embeddings. Your MCP implementation will need to:
+
+1. Connect to both databases
+2. Generate embeddings for queries
+3. Search Qdrant for relevant vectors
+4. Query Neo4j for related documents
+5. Combine and rank results
+
+See the individual guides for detailed implementation instructions.
 
 ## Key Documentation Topics
 
@@ -45,14 +60,14 @@ warnings.filterwarnings("ignore", category=UserWarning, module="qdrant_client")
 
 # Neo4j connection
 neo4j_driver = GraphDatabase.driver(
-    "bolt://localhost:7688", 
+    "bolt://localhost:7687", 
     auth=("neo4j", "password")
 )
 
 # Qdrant connection
 qdrant_client = QdrantClient(
     host="localhost",
-    port=6335
+    port=6333
 )
 
 # Load embedding model
@@ -65,3 +80,15 @@ model = sentence_transformers.SentenceTransformer('all-MiniLM-L6-v2')
 - The `src/graphrag_mcp_tool.py` provides a reference implementation for MCP integration
 - See the [Database Setup Guide](../database_setup.md) for detailed database configuration instructions
 - Refer to [Connection Testing](../testing/index.md) for troubleshooting connection issues
+
+## Troubleshooting
+
+If you encounter issues with the integration, check:
+
+1. **Docker Status**: Ensure both containers are running with `docker ps`
+2. **Port Mapping**: Verify ports are correctly mapped in `docker-compose.yml`
+3. **Model Compatibility**: Ensure the embedding model matches the vector size (384)
+4. **Version Compatibility**: 
+   - Handle Qdrant client/server version differences
+   - Use try/except blocks for different API versions
+5. **Health Checks**: Use the provided health check utilities to verify connections

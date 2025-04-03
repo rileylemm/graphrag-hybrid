@@ -31,8 +31,8 @@ def test_neo4j_connection():
     """Test connection to Neo4j with the verified port"""
     logger.info("Testing Neo4j connection...")
     
-    # Use the verified non-standard port
-    uri = "bolt://localhost:7688"
+    
+    uri = "bolt://localhost:7687"
     username = "neo4j"
     password = "password"
     
@@ -57,7 +57,7 @@ def test_qdrant_connection():
     
     # Use the verified non-standard port
     try:
-        client = QdrantClient(host="localhost", port=6335)
+        client = QdrantClient(host="localhost", port=6333)
         # Check if Qdrant is running by making a simple API call
         status = client.get_collections()
         logger.info(f"Qdrant connection successful. Collections: {len(status.collections)}")
@@ -170,7 +170,7 @@ Verify that you receive properly formatted results containing relevant documenta
 
 If you encounter issues during testing:
 
-1. **Connection Failures**: Verify port numbers in your configuration (Neo4j: 7688, Qdrant: 6335)
+1. **Connection Failures**: Verify port numbers in your configuration (Neo4j: 7687, Qdrant: 6333)
 2. **Version Compatibility**: Ensure your Qdrant client version is compatible with your server
 3. **Empty Results**: Check that your databases are properly populated with document data
 4. **Poor Result Quality**: Adjust your embedding model or search parameters

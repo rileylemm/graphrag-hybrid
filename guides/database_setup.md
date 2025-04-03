@@ -42,8 +42,8 @@ services:
     image: neo4j:5.13.0
     container_name: graphrag_neo4j
     ports:
-      - "7475:7474"  # HTTP (mapped to non-standard port)
-      - "7688:7687"  # Bolt (mapped to non-standard port)
+      - "7474:7474"  
+      - "7687:7687"  
     environment:
       - NEO4J_AUTH=neo4j/password
       - NEO4J_apoc_export_file_enabled=true
@@ -104,15 +104,15 @@ If you prefer not to use Docker, you can install Neo4j directly:
 1. Download Neo4j Community Edition from the [official website](https://neo4j.com/download/)
 2. Install according to your operating system's instructions
 3. Start the Neo4j server and set an initial password
-4. Configure the server to use ports 7475 (HTTP) and 7688 (Bolt)
+4. Configure the server to use ports 7474 (HTTP) and 7687 (Bolt)
 
 ### Configuration
 
 Key configuration parameters for Neo4j:
 
-- **Connection URL**: `bolt://localhost:7688`
+- **Connection URL**: `bolt://localhost:7687`
 - **Default credentials**: username `neo4j`, password `password` (change in production)
-- **Web interface**: Available at http://localhost:7475 after startup
+- **Web interface**: Available at http://localhost:7474 after startup
 
 ### Database Schema Design
 
@@ -165,14 +165,14 @@ If not using Docker:
 
 1. Download the latest Qdrant release from [GitHub](https://github.com/qdrant/qdrant/releases)
 2. Extract and run according to your OS instructions
-3. Configure the server to use port 6335 for HTTP and 6334 for gRPC
+3. Configure the server to use ports 6333 for HTTP and 6334 for gRPC
 4. Verify installation by accessing the API endpoint
 
 ### Configuration
 
 Key configuration for Qdrant:
 
-- **HTTP URL**: http://localhost:6335
+- **HTTP URL**: http://localhost:6333
 - **gRPC URL**: http://localhost:6334
 - **Web dashboard**: Available at http://localhost:6335/dashboard
 
@@ -189,7 +189,7 @@ import warnings
 warnings.filterwarnings("ignore", category=UserWarning, module="qdrant_client")
 
 # Connect to Qdrant
-client = QdrantClient("localhost", port=6335)
+client = QdrantClient("localhost", port=6333)
 
 # Create a collection for document embeddings
 # Using 384 dimensions for all-MiniLM-L6-v2 embeddings
@@ -229,7 +229,7 @@ import warnings
 warnings.filterwarnings("ignore", category=UserWarning, module="qdrant_client")
 
 # Initialize clients
-qdrant = QdrantClient(host="localhost", port=6335)
+qdrant = QdrantClient(host="localhost", port=6333)
 model = SentenceTransformer('all-MiniLM-L6-v2')
 
 # Insert a document
@@ -301,9 +301,9 @@ For production environments:
 Verify your setup is working with these checks:
 
 1. **Neo4j**:
-   - Access the web interface at http://localhost:7475
+   - Access the web interface at http://localhost:7474
    - Run a simple Cypher query: `MATCH (n) RETURN n LIMIT 5`
-   - Verify connection via Bolt protocol: `bolt://localhost:7688`
+   - Verify connection via Bolt protocol: `bolt://localhost:7687`
 
 2. **Qdrant**:
    - Check service status: http://localhost:6335/dashboard
@@ -319,7 +319,7 @@ Verify your setup is working with these checks:
 Common issues and solutions:
 
 - **Neo4j won't start**: Check logs at `./neo4j_logs` when using Docker
-- **Qdrant connection refused**: Verify ports are properly exposed (6335 for HTTP, 6334 for gRPC)
+- **Qdrant connection refused**: Verify ports are properly exposed (6333 for HTTP, 6334 for gRPC)
 - **Authentication errors**: Ensure credentials match in both config and code
 - **Slow Neo4j queries**: Check your index usage with `EXPLAIN` and `PROFILE`
 - **Vector dimension mismatch**: Ensure embedding dimensions match your Qdrant collection (384 for all-MiniLM-L6-v2)
