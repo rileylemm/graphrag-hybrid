@@ -177,13 +177,13 @@ class Neo4jManager:
         UNWIND $chunks AS chunk
         MERGE (c:Chunk {id: chunk.id})
         SET c.text = chunk.text,
-            c.position = chunk.position
+            c.position = chunk.position,
+            c.doc_id = chunk.doc_id
         WITH c, chunk
-        MATCH (d:Document {id: chunk.doc_id})
+        MERGE (d:Document {id: chunk.doc_id})
         MERGE (d)-[:HAS_CHUNK]->(c)
         WITH c, chunk
-        MATCH (prev:Chunk)
-        WHERE prev.doc_id = chunk.doc_id AND prev.position = chunk.position - 1
+        MATCH (prev:Chunk {doc_id: chunk.doc_id, position: chunk.position - 1})
         MERGE (prev)-[:NEXT]->(c)
         """, params)
         
