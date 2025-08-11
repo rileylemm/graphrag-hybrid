@@ -172,7 +172,6 @@ class Neo4jManager:
             params['chunks'].append(chunk_data)
         
         # Execute batch creation with relationships
-        logging.info("doingjkaghkahgkahgahgag")
         session.run("""                    
         UNWIND $chunks AS chunk
         MERGE (c:Chunk {id: chunk.id})
@@ -186,7 +185,6 @@ class Neo4jManager:
         MATCH (prev:Chunk {doc_id: chunk.doc_id, position: chunk.position - 1})
         MERGE (prev)-[:NEXT]->(c)
         """, params)
-        logging.info("endingfhgkahgkajhgaghk")
     def get_document_by_id(self, doc_id):
         """Get a document by ID"""
         try:
@@ -197,7 +195,6 @@ class Neo4jManager:
                 """, {'id': doc_id})
                 
                 record = result.single()
-                print("asdhgjahgja {}" .format(dict(record['d'])))
                 if record:
                     return dict(record['d'])
                 return None
