@@ -121,7 +121,6 @@ class Neo4jManager:
                 WHERE d1.category = d2.category AND d1.id <> d2.id
                 MERGE (d1)-[:RELATED_TO]->(d2)
                 """)
-                
             logger.info("Documents and chunks successfully imported to Neo4j")
             return True
         except Exception as e:
@@ -173,7 +172,8 @@ class Neo4jManager:
             params['chunks'].append(chunk_data)
         
         # Execute batch creation with relationships
-        session.run("""
+        logging.info("doingjkaghkahgkahgahgag")
+        session.run("""                    
         UNWIND $chunks AS chunk
         MERGE (c:Chunk {id: chunk.id})
         SET c.text = chunk.text,
@@ -186,7 +186,7 @@ class Neo4jManager:
         MATCH (prev:Chunk {doc_id: chunk.doc_id, position: chunk.position - 1})
         MERGE (prev)-[:NEXT]->(c)
         """, params)
-        
+        logging.info("endingfhgkahgkajhgaghk")
     def get_document_by_id(self, doc_id):
         """Get a document by ID"""
         try:
@@ -197,6 +197,7 @@ class Neo4jManager:
                 """, {'id': doc_id})
                 
                 record = result.single()
+                print("asdhgjahgja {}" .format(dict(record['d'])))
                 if record:
                     return dict(record['d'])
                 return None
@@ -257,12 +258,11 @@ class Neo4jManager:
             with self.driver.session(database=self.database) as session:
                 result = session.run("""
                 MATCH (c:Chunk {id: $id})
-                OPTIONAL MATCH (c)<-[:NEXT*1..{context_size}]-(prev:Chunk)
-                OPTIONAL MATCH (c)-[:NEXT*1..{context_size}]->(next:Chunk)
+                OPTIONAL MATCH (c)<-[:NEXT*1..2]-(prev:Chunk)
+                OPTIONAL MATCH (c)-[:NEXT*1..2]->(next:Chunk)
                 WITH c, collect(prev) as prevs, collect(next) as nexts
                 RETURN c as center, prevs, nexts
                 """, {'id': chunk_id, 'context_size': context_size})
-                
                 record = result.single()
                 if record:
                     return {
@@ -320,4 +320,4 @@ class Neo4jManager:
                 }
         except Exception as e:
             logger.error(f"Error getting database statistics: {str(e)}")
-            return {} 
+            return {}
